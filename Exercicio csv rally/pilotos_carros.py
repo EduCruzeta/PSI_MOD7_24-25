@@ -55,8 +55,18 @@ def ValidarMatricula(matricula):
             return True
     return False
 
+def ValidarNrMatriculas(matricula):
+    "Devolve o nr de pilotes de um carro"
+    contar = 0
+    for p in lista_pilotos:
+        if p["matricula"] == matricula:
+            contar += 1
+    return contar
+
 def Adicionar():
     op = input("Adicionar [P]iloto ou [C]arro? \n op:")
+    if not op:
+        return
     if op in "cC":
         # ler os dados dos carros
         marca = input("insira a marca do carro: ")
@@ -79,6 +89,10 @@ def Adicionar():
         if ValidarMatricula(matricula) == False:
             print("Matrícula introduzida não existe. ")
             return
+        # verificar quantos pilotos estão no carro
+        if ValidarNrMatriculas(matricula) >= 2:
+            print("Já existe 2 pilotos no carro")
+            return
         nome = input("Introduza o nome do piloto: ")
         idade = int(input("Introduza a idade do piloto: "))
         pais = input("Introduza o país do piloto: ")
@@ -98,7 +112,20 @@ def Listar():
         print(lista_pilotos)
 
 def Pesquisar():
-    pass
+    matricula = input("Qual a matricula do carro a pesquisar: ")
+    if matricula:
+        # mostrar os pilotos do carro
+        for piloto in lista_pilotos:
+            if piloto["matricula"] == matricula:
+                print(piloto)
+    piloto = input("Qual o nome do piloto a pesquisar: ")
+    if piloto:
+        # mostrar o carro do piloto
+        for pilotos in lista_pilotos:
+            if pilotos["nome"] == piloto:
+                for carro in lista_carros:
+                    if carro["matricula"] == pilotos["matricula"]:
+                        print(carro)
 
 def Menu():
     global lista_pilotos , lista_carros
